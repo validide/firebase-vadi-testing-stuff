@@ -50,7 +50,7 @@
       var origin = validide_jbu.getUrlOrigin(document, window.location.href);
       var parentOrigin = window.location.hostname === 'localhost'
         ? window.location.origin
-        : validide_jbu.getUrlOrigin('https://validide.github.io/javascript-browser-utilities/');
+        : validide_jbu.getUrlOrigin(document, 'https://validide.github.io/javascript-browser-utilities/');
       var iframeContent = new validide_jbu.IframeContent(window, parentOrigin);
       document.getElementById('message').textContent = 'This content is from: '
         + '\n  - location: ' + window.location.href
