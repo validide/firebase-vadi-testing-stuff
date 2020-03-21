@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript Browser Utilities</title>
+  <meta name="description" content="JavaScript Browser Utilities Library">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <style>
+    html,body { height: 100%; }
+  </style>
+</head>
+
+<body>
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal">JavaScript Browser Utilities</h5>
+  </div>
+
+  <div class="container">
+    <pre><code id="message"></code></pre>
+    <div class="row">
+      <div class="col-md-6">
+        <a role="button" href="javascript:void(0)"
+          class="btn btn-block btn-outline-primary my-1"
+          id="action-busy">Set Busy for 5s</a>
+      </div>
+      <div class="col-md-6">
+        <a role="button" href="javascript:void(0)"
+        class="btn btn-block btn-outline-danger my-1"
+        id="action-close">Close</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <script src="https://validide.github.io/javascript-browser-utilities/lib/bundle/index.js"></script>
+
+  <script>
+    (function(){
+      var origin = validide_jbu.getUrlOrigin(document, window.location.href);
+      var parentOrigin = window.location.hostname === 'localhost'
+        ? window.location.origin
+        : validide_jbu.getUrlOrigin('https://validide.github.io/javascript-browser-utilities/');
+      var iframeContent = new validide_jbu.IframeContent(window, parentOrigin);
+      document.getElementById('message').textContent = 'This content is from: '
+        + '\n  - location: ' + window.location.href
+        + '\n  - origin: ' + origin
+        + '\n  - parentOrigin: ' + parentOrigin;
+
+      document.getElementById('action-busy').addEventListener('click', function(e) {
+        iframeContent.signalBusyState(true);
+        setTimeout(function() {
+          iframeContent.signalBusyState(false);
+        }, 5000);
+      });
+
+      document.getElementById('action-close').addEventListener('click', function(e) {
+        iframeContent.dispose();
+      });
+
+      setTimeout(function() {
+        // Simulate some long running process.
+        iframeContent.signalBusyState(false);
+      }, 2000);
+    })();
+  </script>
+</body>
+
+</html>
